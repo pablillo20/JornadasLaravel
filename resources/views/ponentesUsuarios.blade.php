@@ -32,7 +32,7 @@
                                 let card = document.createElement("div");
                                 card.className = "bg-white shadow-md rounded-lg p-4 flex flex-col items-center border border-gray-200";
                                 card.innerHTML = `
-                                    <img src="${ponente.foto}" alt="Foto de ${ponente.nombre}" class="w-24 h-24 rounded-full mb-3 object-cover border-2 border-gray-300">
+                                    <img src="/storage/${ponente.foto}" alt="Foto de ${ponente.nombre}" class="w-24 h-24 rounded-full mb-3 object-cover border-2 border-gray-300">
                                     <h4 class="text-lg font-semibold">${ponente.nombre}</h4>
                                     <p class="text-gray-600 text-sm">Experiencia: ${ponente.experiencia}</p>
                                     <a href="https://www.${ponente.redes_sociales}.com/" target="_blank" class="text-blue-500 text-sm mt-2 underline">Sígueme en ${ponente.redes_sociales}</a>
