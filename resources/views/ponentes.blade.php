@@ -21,7 +21,7 @@
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 id="modalTitulo" class="text-lg font-bold mb-4">Crear Ponente</h3>
             <input id="nombre" type="text" placeholder="Nombre" class="w-full border p-2 mb-2 rounded">
-            <input id="foto" type="text" placeholder="URL de la foto" class="w-full border p-2 mb-2 rounded">
+            <input id="foto" type="file" class="w-full border p-2 mb-2 rounded">
             <input id="experiencia" type="text" placeholder="Experiencia" class="w-full border p-2 mb-2 rounded">
             <input id="redes_sociales" type="text" placeholder="Red Social (ej: twitter)" class="w-full border p-2 mb-2 rounded">
             <div class="flex justify-end gap-2">
@@ -56,7 +56,7 @@
                                 let card = document.createElement("div");
                                 card.className = "bg-white shadow-md rounded-lg p-4 flex flex-col items-center border border-gray-200";
                                 card.innerHTML = `
-                                    <img src="${ponente.foto}" alt="Foto de ${ponente.nombre}" class="w-24 h-24 rounded-full mb-3 object-cover border-2 border-gray-300">
+                                    <img src="/storage/${ponente.foto}" alt="Foto de ${ponente.nombre}" class="w-24 h-24 rounded-full mb-3 object-cover border-2 border-gray-300">
                                     <h4 class="text-lg font-semibold">${ponente.nombre}</h4>
                                     <p class="text-gray-600 text-sm">Experiencia: ${ponente.experiencia}</p>
                                     <a href="https://www.${ponente.redes_sociales}.com/" target="_blank" class="text-blue-500 text-sm mt-2 underline">Sígueme en ${ponente.redes_sociales}</a>
@@ -116,7 +116,7 @@
 
             btnGuardarPonente.addEventListener("click", () => {
                 const nombre = document.getElementById("nombre").value;
-                const foto = document.getElementById("foto").value;
+                const foto = document.getElementById("foto").files[0];
                 const experiencia = document.getElementById("experiencia").value;
                 const redes_sociales = document.getElementById("redes_sociales").value;
 
@@ -125,7 +125,12 @@
                     return;
                 }
 
-                const ponenteData = { nombre, foto, experiencia, redes_sociales };
+                const formData = new FormData();
+                formData.append("nombre", nombre);
+                formData.append("foto", foto);
+                formData.append("experiencia", experiencia);
+                formData.append("redes_sociales", redes_sociales);
+
                 let url = "http://localhost:8000/api/ponentes";
                 let method = "POST";
 
@@ -136,8 +141,7 @@
 
                 fetch(url, {
                     method: method,
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(ponenteData)
+                    body: formData,
                 })
                 .then(response => response.json())
                 .then(() => {
